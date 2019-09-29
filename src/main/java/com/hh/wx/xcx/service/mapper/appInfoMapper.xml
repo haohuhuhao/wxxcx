@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.AppInfoMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.AppInfo">
+		insert into app (name,remark,user_id,effect_time,business_type,appid,secret,update_time,create_time)
+		values(#{name},#{remark},#{userId},#{effectTime},#{businessType},#{appid},#{secret},now(),now())
+	</insert>
+
+	<select id="queryAll" parameterType="com.hh.wx.xcx.model.AppInfo" resultType="com.hh.wx.xcx.model.AppInfo">
+		select 
+			id id,
+			name name,
+			remark remark,
+			user_id userId,
+			effect_time effectTime,
+			business_type businessType,
+			status status,
+			appid appid,
+			secret secret,
+			update_time updateTime,
+			create_time createTime
+		from
+			app 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="userId!=null">
+				and user_id = #{userId}
+			</if>
+			<if test="businessType!=null">
+				and business_type = #{businessType}
+			</if>
+			<if test="status!=null">
+				and status = #{status}
+			</if>
+		</trim>
+	</select>
+</mapper>
