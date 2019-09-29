@@ -12,4 +12,10 @@ public interface AppInfoMapper {
 	void insert(AppInfo app);
 
 	List<AppInfo> queryAll(AppInfo app);
+
+	AppInfo getById(Long id);
+
+	void update(AppInfo app);
+
+	void deleteById(Long id);
 }

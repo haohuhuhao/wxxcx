@@ -19,7 +19,6 @@ spring:
     testOnBorrow: false
     testOnReturn: false 
 
-
 # Redis数据库索引（默认为0）  
   redis: 
     database: 0
@@ -48,3 +47,6 @@ wx:
   appid: wxae3b0295ff461c7e
   secret: 1ae483b279848974abf529250710df5f
   session-url: https://api.weixin.qq.com/sns/jscode2session
+logging:
+  level:
+     com.hh.wx.xcx.service.mapper: debug

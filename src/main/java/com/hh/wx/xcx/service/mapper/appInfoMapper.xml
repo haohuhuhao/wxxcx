@@ -8,17 +8,7 @@
 
 	<select id="queryAll" parameterType="com.hh.wx.xcx.model.AppInfo" resultType="com.hh.wx.xcx.model.AppInfo">
 		select 
-			id id,
-			name name,
-			remark remark,
-			user_id userId,
-			effect_time effectTime,
-			business_type businessType,
-			status status,
-			appid appid,
-			secret secret,
-			update_time updateTime,
-			create_time createTime
+		<include refid="baseField"></include>
 		from
 			app 
 		<trim prefix="where" prefixOverrides="and">
@@ -33,4 +23,56 @@
 			</if>
 		</trim>
 	</select>
+	
+	<sql id="baseField">
+			id id,
+			name name,
+			remark remark,
+			user_id userId,
+			effect_time effectTime,
+			business_type businessType,
+			status status,
+			appid appid,
+			secret secret,
+			update_time updateTime,
+			create_time createTime
+	</sql>
+	
+	<select id="getById" parameterType="long" resultType="com.hh.wx.xcx.model.AppInfo">
+		select 
+		<include refid="baseField"></include>
+		from
+			app 
+		where id = #{id}
+	</select>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.AppInfo">
+		update app 
+		set
+			<if test="status!=null">
+				status = #{status},
+			</if>	
+			<if test="name != null">
+				name = #{name},
+			</if>
+			
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="effectTime != null">
+				effect_time = #{effectTime},
+			</if>
+			<if test="appid != null">
+				appid = #{appid},
+			</if>
+			<if test="secret != null">
+				secret = #{secret},
+			</if>
+			update_time = now()
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="long">
+		delete from app where id = #{id}
+	</delete>
 </mapper>

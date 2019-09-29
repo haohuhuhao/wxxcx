@@ -3,6 +3,7 @@ package com.hh.wx.xcx.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,4 +32,23 @@ public class AppInfoController {
 		
 		return appInfoService.queryAll(app);
 	}
+	
+	@RequestMapping(value="get/{id}",method=RequestMethod.GET)
+	public ResultVo<AppInfo> query(@PathVariable("id") Long id){
+		
+		return appInfoService.getById(id);
+	}
+	
+	@RequestMapping(value="update",method=RequestMethod.PUT)
+	public ResultVo<String> update(@RequestBody AppInfo app){
+		
+		return appInfoService.update(app);
+	}
+	
+	@RequestMapping(value="delete/{id}",method=RequestMethod.DELETE)
+	public ResultVo<String> delete(@PathVariable("id") Long id){
+		
+		return appInfoService.deleteById(id);
+	}
 }
+

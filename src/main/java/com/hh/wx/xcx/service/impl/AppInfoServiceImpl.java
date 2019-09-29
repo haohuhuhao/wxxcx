@@ -34,5 +34,27 @@ public class AppInfoServiceImpl implements AppInfoService {
 		List<AppInfo> apps = appInfoMapper.queryAll(app);
 		return ResultUtils.secusses(apps);
 	}
+
+	@Override
+	public ResultVo<AppInfo> getById(Long id) {
+		AppInfo app = appInfoMapper.getById(id);
+		return ResultUtils.secusses(app);
+	}
+
+	@Override
+	public ResultVo<String> update(AppInfo app) {
+		if(app.getId() == null){
+			return ResultUtils.fail("应用id不能为空");
+		}
+		
+		appInfoMapper.update(app);
+		return ResultUtils.secusses();
+	}
+
+	@Override
+	public ResultVo<String> deleteById(Long id) {
+		appInfoMapper.deleteById(id);
+		return ResultUtils.secusses();
+	}
 	
 }

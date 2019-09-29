@@ -11,4 +11,10 @@ public interface AppInfoService {
 
 	ResultVo<List<AppInfo>> queryAll(AppInfo app);
 
+	ResultVo<AppInfo> getById(Long id);
+
+	ResultVo<String> update(AppInfo app);
+
+	ResultVo<String> deleteById(Long id);
+
 }
