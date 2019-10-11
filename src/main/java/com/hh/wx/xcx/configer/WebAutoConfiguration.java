@@ -16,6 +16,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.hh.wx.xcx.interceptor.LoginInterceptor;
+import com.hh.wx.xcx.interceptor.WxLoginInterceptor;
 
 @Configuration
 public class WebAutoConfiguration implements WebMvcConfigurer {
@@ -57,7 +58,11 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		InterceptorRegistration registration = registry.addInterceptor(new LoginInterceptor(redisTemplate));//.addPathPatterns("/intercept/**");
 		registration.addPathPatterns("/**");
-		registration.excludePathPatterns("/**/regist","/**/login");
+		registration.excludePathPatterns("/**/regist","/**/login","/**/wxUser/**");
+		
+		registry.addInterceptor(new WxLoginInterceptor(redisTemplate)).addPathPatterns("/**/wxUser/**");
+		//.excludePathPatterns("/**/login");
+		
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 	

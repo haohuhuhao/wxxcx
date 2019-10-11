@@ -17,13 +17,15 @@ import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.commons.StringRegexUtils;
 import com.hh.wx.xcx.model.User;
 import com.hh.wx.xcx.service.UserService;
+import com.hh.wx.xcx.service.WxUserService;
 import com.hh.wx.xcx.service.mapper.UserMapper;
+import com.hh.wx.xcx.service.mapper.WxUserMapper;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class WxUserServiceImpl implements WxUserService {
 
 	@Autowired
-	private UserMapper userMapper;
+	private WxUserMapper xUserMapper;
 	
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
 			return ResultUtils.fail("手机号格式错误");
 		}
 		//判断手机号和用户名唯一
-		User userdb = userMapper.findOne(phone);
+		User userdb = xUserMapper.findOne(phone);
 		if(userdb != null){
 			return ResultUtils.fail("手机号已经注册");
 		}
@@ -50,13 +52,13 @@ public class UserServiceImpl implements UserService {
 		}else{
 			user.setPwd(DigestUtils.md5Hex(user.getPwd()));
 		}
-		userMapper.insert(user);
+		xUserMapper.insert(user);
 		return ResultUtils.secusses();
 	}
 	
 	@Override
 	public ResultVo<String> loginByPhone(String phone, String pwd) {
-		User user = userMapper.findOne(phone);
+		User user = xUserMapper.findOne(phone);
 		if(user == null){
 			return ResultUtils.fail("用户不存在");
 		}
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService {
 		User userDb = LoginInfoUtils.getLoginInfo(User.class);
 		user.setId(userDb.getId());
 		
-		userMapper.update(user);
+		xUserMapper.update(user);
 		return ResultUtils.secusses();
 	}
 }

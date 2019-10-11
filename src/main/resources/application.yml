@@ -50,3 +50,6 @@ wx:
 logging:
   level:
      com.hh.wx.xcx.service.mapper: debug
+
+quartz: 
+    cronExpression: 0/5 * 8-20 * * ?

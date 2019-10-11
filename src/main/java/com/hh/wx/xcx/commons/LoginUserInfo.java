@@ -9,4 +9,6 @@ public class LoginUserInfo {
 	private String name;
 	
 	private String businessType;
+	
+	private String phone;
 }

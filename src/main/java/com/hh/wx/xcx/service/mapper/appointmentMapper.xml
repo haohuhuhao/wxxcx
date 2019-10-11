@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.AppointmentMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.Appointment">
+		insert into appointment (
+		user_id,
+		time,
+		phone,
+		app_id,
+		status,
+		openid,
+		type,
+		belong_id,
+		update_time,
+		create_time)
+		values(
+		#{userId},
+		#{time},
+		#{phone},
+		#{appId},
+		#{status},
+		#{openid},
+		#{belongId},
+		now(),
+		now())
+	</insert>
+
+</mapper>

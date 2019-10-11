@@ -28,8 +28,8 @@ public class Base64Code {
 		return null;
 	}
 	
-	public static String getToken(){
+	public static String getToken(String key){
 		
-		return encodeToString(System.currentTimeMillis()+"");
+		return encodeToString(System.currentTimeMillis()+key);
 	}
 }

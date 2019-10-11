@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.CarMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.CarInfo">
+		insert into car_info (
+  		`user_id`,
+ 		`car_num`,
+  		`car_name`,
+  		`car_model`,
+  		`car_mileage`,
+  		`car_age`,
+  		`create_time`,
+  		`update_time`)
+		values(#{userId},#{carNum},#{carName},#{carModel},#{carMileage},#{carAge},now(),now())
+	</insert>
+	
+	<select id="queryByUserId" parameterType="long" resultType="com.hh.wx.xcx.model.CarInfo">
+		select 
+		`id` id,
+		`user_id` userId,
+ 		`car_num` carNum,
+  		`car_name` carName ,
+  		`car_model` carModel,
+  		`car_mileage` carMileage,
+  		`car_age` carAge,
+  		`create_time` createTime,
+  		`update_time` updateTime
+  		from car_info
+  		where user_id = #{userId}
+	</select>
+	
+	<select id="getById" parameterType="long" resultType="com.hh.wx.xcx.model.CarInfo">
+		select 
+		`id` id,
+		`user_id` userId,
+ 		`car_num` carNum,
+  		`car_name` carName ,
+  		`car_model` carModel,
+  		`car_mileage` carMileage,
+  		`car_age` carAge,
+  		`create_time` createTime,
+  		`update_time` updateTime
+  		from car_info
+  		where id = #{id}
+	</select>
+	
+	<delete id="deleteById" parameterType="long"> 
+		delete form car_info where id = #{id}
+	</delete>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.CarInfo">
+		update form 
+		<set>  
+        <if test="carNum!= null and carNum!= '' ">  
+            car_num = #{carNum},  
+        </if>  
+        <if test="carName!= null and carName!= '' ">  
+           car_name = #{carName},  
+        </if>  
+        <if test="carModel != null and carModel != '' ">  
+            car_model = #{carModel},  
+        </if>  
+        <if test="carMileage!= null and carMileage!= '' ">  
+            car_mileage = #{carMileage},  
+        </if>  
+        <if test="carAge!= null">  
+           car_age = #{carAge},  
+        </if>  
+           update_time = now(),  
+    </set>  
+    	where id = #{id}
+	</update>
+</mapper>
