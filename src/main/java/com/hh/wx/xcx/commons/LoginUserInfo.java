@@ -11,4 +11,6 @@ public class LoginUserInfo {
 	private String businessType;
 	
 	private String phone;
+	
+	private Long appId;
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hh.wx.xcx.commons.LoginInfoUtils;
+import com.hh.wx.xcx.commons.LoginUserInfo;
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.commons.WXLoginUserInfo;
@@ -51,5 +52,13 @@ public class CarInfoServiceImpl implements CarInfoService {
 	public ResultVo<String> update(CarInfo car) {
 		carMapper.update(car);
 		return ResultUtils.secusses();
+	}
+
+	@Override
+	public ResultVo<CarInfo> getByCarNum(String num) {
+		LoginUserInfo userInfo = LoginInfoUtils.getLoginInfo(LoginUserInfo.class);
+		
+		CarInfo car = carMapper.getByCarNum(num,userInfo.getAppId());
+		return ResultUtils.secusses(car);
 	}
 }

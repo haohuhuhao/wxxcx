@@ -17,6 +17,12 @@ public class CarInfo  extends BaseModel{
 	  
 	  private String carModel;
 	  
+	  
+	  /**
+	 * 是否已绑定（无需数据库持久化）
+	 */
+	private Boolean bind;
+	  
 	  /**
 	 * 里程
 	 */

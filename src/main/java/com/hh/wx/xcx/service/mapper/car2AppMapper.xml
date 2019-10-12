@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.Car2AppMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.Car2App">
+		insert into car_app (
+  		`car_id`,
+ 		`app_id`,
+  		`create_time`,
+  		`update_time`)
+		values(#{carId},#{appId},now(),now())
+	</insert>
+	
+	<delete id="deleteByIdAndAppId"> 
+		delete from car_app where car_id = #{carId} and app_id = #{appId}
+	</delete>
+	
+	<select id="getByCarIdAndAppId" resultType="com.hh.wx.xcx.model.Car2App">
+		select 
+		id id,
+		`car_id` carId,
+ 		`app_id` appId,
+  		`create_time` createTime,
+  		`update_time` updateTime
+  		from car_app
+  		where car_id = #{carId} and app_id = #{appId}
+	</select>
+	
+</mapper>

@@ -7,8 +7,6 @@ public class WXLoginUserInfo extends LoginUserInfo{
 
 	private String openid;
 	
-	private Long appId;
-	
 	private String wxSession;
 	
 }

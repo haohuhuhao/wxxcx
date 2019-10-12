@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultVo;
+import com.hh.wx.xcx.model.Car2App;
 import com.hh.wx.xcx.model.CarInfo;
+import com.hh.wx.xcx.service.Car2AppService;
 import com.hh.wx.xcx.service.CarInfoService;
 
 @RestController
@@ -20,6 +22,9 @@ public class CarInfoController {
 	
 	@Autowired
 	private CarInfoService carInfoService;
+	
+	@Autowired
+	private Car2AppService car2AppService;
 	
 
 	@RequestMapping(value="add",method=RequestMethod.POST)
@@ -37,7 +42,19 @@ public class CarInfoController {
 	@RequestMapping(value="get/{id}",method=RequestMethod.GET)
 	public ResultVo<CarInfo> getById(@PathVariable("id") Long id){
 		
-		return carInfoService.getById(id);
+		ResultVo<CarInfo> result = carInfoService.getById(id);
+		CarInfo carInfo = result.getData();
+		if(carInfo!=null){
+			Car2App car2App = car2AppService.getByCarId(carInfo.getId());
+			carInfo.setBind(car2App != null);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="getByCarNum/{num}",method=RequestMethod.GET)
+	public ResultVo<CarInfo> getByCarNum(@PathVariable("num") String num){
+		
+		return carInfoService.getByCarNum(num);
 	}
 	
 	@RequestMapping(value="delete/{id}",method=RequestMethod.DELETE)
@@ -51,5 +68,8 @@ public class CarInfoController {
 		
 		return carInfoService.update(car);
 	}
+	
+	
+	
 }
 
