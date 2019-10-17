@@ -1,19 +1,15 @@
 package com.hh.wx.xcx.controller;
 
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultVo;
-import com.hh.wx.xcx.model.CarInfo;
 import com.hh.wx.xcx.service.Car2AppService;
-import com.hh.wx.xcx.service.CarInfoService;
 
 @RestController
 @RequestMapping("car2App")

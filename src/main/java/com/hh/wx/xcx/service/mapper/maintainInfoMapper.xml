@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.MaintainInfoMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.MaintainInfo">
+		insert into maintain_info (
+		app_id,
+		car_id,
+		maintain_time,
+		status,
+		maintain_title,
+		maintain_addr;
+		maintainer,
+		update_time,
+		create_time)
+		values(
+		#{appId},
+		#{carId},
+		#{maintainTime},
+		#{status},
+		#{maintainTitle},
+		#{maintainAddr},
+		#{maintainer},
+		now(),
+		now())
+	</insert>
+	
+	<select id="queryByCarIdAndAppId" resultType="com.hh.wx.xcx.model.MaintainInfo">
+		select 
+			id id,
+			app_id appId,
+			car_id carId,
+			maintain_time maintainTime,
+			status status,
+			maintain_title maintainTitle,
+			maintain_addr maintainAddr;
+			maintainer maintainer,
+			update_time updateTime,
+			create_time createTime
+		from 
+			maintain_info
+		where 
+			app_id = #{appId}
+			and car_id=#{carId}
+		<if test="status != null">
+			and status = #{status}
+		</if>
+	
+	</select>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.MaintainInfo">
+		update maintain_info
+		<set>  
+	        <if test="maintainTime!= null">  
+	            maintain_time = #{maintainTime},  
+	        </if>  
+	        <if test="status!= null">  
+	           status = #{status},  
+	        </if>  
+	        <if test="maintainTitle != null and maintainTitle != ''">  
+	            maintain_title = #{maintainTitle},  
+	        </if> 
+	        <if test="maintainAddr!= null and maintainAddr!=''">  
+	           maintain_addr = #{maintainAddr},  
+	        </if>  
+	        <if test="maintainer != null and maintainer != ''">  
+	            maintainer = #{maintainer},  
+	        </if> 
+	        update_time = now()
+	    </set>  
+	    
+	    where id = #{id}
+	</update>
+
+</mapper>

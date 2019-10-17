@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.MaintainDetailMapperr" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.MaintainDetail">
+		insert into maintain_detail (
+		maintain_id,
+		name,
+		detail,
+		remark,
+		imgs,
+		update_time,
+		create_time)
+		values(
+		#{maintainId},
+		#{name},
+		#{detail},
+		#{remark},
+		#{imgs},
+		now(),
+		now())
+	</insert>
+	
+	<select id="queryBymaintainInfoId" resultType="com.hh.wx.xcx.model.MaintainDetail">
+		select 
+			id id,
+			maintain_id maintainId,
+			name name,
+			detail detail,
+			remark remark,
+			imgs imgs,
+			update_time updateTime,
+			create_time createTime
+		from 
+			maintain_detail
+		where 
+			maintain_id = #{maintainId}
+	</select>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.MaintainDetail">
+		update maintain_info
+		<set>  
+	        <if test="remark!= null and remark != ''">  
+	           remark = #{remark},  
+	        </if>  
+	        <if test="name != null and name != ''">  
+	            name = #{name},  
+	        </if> 
+	        <if test="detail!= null and detail!=''">  
+	           detail = #{detail},  
+	        </if>  
+	        <if test="imgs != null and imgs != ''">  
+	            imgs = #{imgs},  
+	        </if> 
+	        update_time = now()
+	    </set>  
+	    
+	    where id = #{id}
+	</update>
+
+</mapper>

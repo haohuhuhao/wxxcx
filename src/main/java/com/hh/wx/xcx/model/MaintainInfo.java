@@ -9,20 +9,17 @@ import lombok.Data;
 @Data
 public class MaintainInfo extends BaseModel{
 
-	private String name;
+	private Long appId;
 	
-	private String remark;
+	private Long carId;
 	
-	private Long userId;
-	
-	private Date effectTime;
+	private Date maintainTime;
 	
 	private Integer status;
 	
-	private String businessType;
+	private String maintainTitle;
 	
-	private String appid;
+	private String maintainAddr;
 	
-	private String secret;
-	
+	private String maintainer;
 }
