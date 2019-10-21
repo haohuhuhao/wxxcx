@@ -13,5 +13,8 @@ public interface MaintainInfoService {
 
 	ResultVo<String> update(MaintainInfo maintainInfo);
 
+	ResultVo<String> changeStatus(Long id);
+
+	MaintainInfo getById(Long maintainInfoId);
 
 }

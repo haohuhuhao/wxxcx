@@ -15,4 +15,8 @@ public interface MaintainDetailMapper {
 	List<MaintainDetail> queryBymaintainInfoId(@Param("maintainInfoId")Long maintainInfoId);
 
 	void update(MaintainDetail maintainDetail);
+
+	void bacthInsert(List<MaintainDetail> maintainDetails);
+
+	void batchUpdate(List<MaintainDetail> maintainDetails);
 }

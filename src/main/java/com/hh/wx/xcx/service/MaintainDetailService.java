@@ -13,5 +13,9 @@ public interface MaintainDetailService {
 
 	ResultVo<String> update(MaintainDetail maintainDetail);
 
+	ResultVo<String> bacthCreate(List<MaintainDetail> maintainDetails);
+
+	ResultVo<String> batchUpdate(List<MaintainDetail> maintainDetails);
+
 
 }

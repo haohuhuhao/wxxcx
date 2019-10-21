@@ -44,6 +44,10 @@
 		<if test="status != null">
 			and status = #{status}
 		</if>
+		
+		<if test="status == null">
+			and status != -1
+		</if>
 	
 	</select>
 	
@@ -70,5 +74,28 @@
 	    
 	    where id = #{id}
 	</update>
+	
+	<update id="changeStatus">
+		update maintain_info set status = #{status} where id = #{id}
+	</update>
+	
+	<select id="getMaintainInfoStatus" resultType="int" >
+		select status from maintain_info where id = #{id}
+	</select>
+	
+	<select id="getById" resultType="com.hh.wx.xcx.model.MaintainInfo">
+		select 
+			id id,
+			app_id appId,
+			car_id carId,
+			maintain_time maintainTime,
+			status status,
+			maintain_title maintainTitle,
+			maintain_addr maintainAddr;
+			maintainer maintainer,
+			update_time updateTime,
+			create_time createTime 
+		from maintain_info where id = #{id}
+	</select>
 
 </mapper>

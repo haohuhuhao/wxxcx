@@ -1,6 +1,7 @@
 package com.hh.wx.xcx.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.hh.wx.xcx.commons.model.BaseModel;
 
@@ -15,6 +16,9 @@ public class MaintainInfo extends BaseModel{
 	
 	private Date maintainTime;
 	
+	/**
+	 * 0 未发发布
+	 */
 	private Integer status;
 	
 	private String maintainTitle;
@@ -22,4 +26,6 @@ public class MaintainInfo extends BaseModel{
 	private String maintainAddr;
 	
 	private String maintainer;
+	
+	//private List<MaintainDetail> maintainDetails;
 }

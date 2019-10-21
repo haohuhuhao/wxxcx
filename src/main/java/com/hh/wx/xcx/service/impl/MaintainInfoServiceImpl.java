@@ -11,15 +11,20 @@ import com.hh.wx.xcx.commons.LoginInfoUtils;
 import com.hh.wx.xcx.commons.LoginUserInfo;
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
+import com.hh.wx.xcx.eventBus.event.MaintainInfoPublicEvent;
 import com.hh.wx.xcx.model.MaintainInfo;
 import com.hh.wx.xcx.service.MaintainInfoService;
 import com.hh.wx.xcx.service.mapper.MaintainInfoMapper;
+import com.hh.wx.xcx.wx.eventbus.factory.DefaultDomainEventPublisher;
 
 @Service
 public class MaintainInfoServiceImpl implements MaintainInfoService {
 
 	@Autowired
 	private MaintainInfoMapper maintainInfoMapper;
+	
+	@Autowired
+	private DefaultDomainEventPublisher defaultDomainEventPublisher;
 
 	@Override
 	public ResultVo<String> create(MaintainInfo maintainInfo) {
@@ -42,6 +47,29 @@ public class MaintainInfoServiceImpl implements MaintainInfoService {
 	public ResultVo<String> update(MaintainInfo maintainInfo) {
 		maintainInfoMapper.update(maintainInfo);
 		return ResultUtils.secusses();
+	}
+
+	@Override
+	public ResultVo<String> changeStatus(Long id) {
+		Integer status = maintainInfoMapper.getMaintainInfoStatus(id);
+		
+		if(status < 2){
+			
+			//发布
+			if(status == 0){
+				maintainInfoMapper.changeStatus(id,status + 1);
+				MaintainInfoPublicEvent event = new MaintainInfoPublicEvent();
+				event.setMaintainInfoId(id);
+				defaultDomainEventPublisher.postAsync(event);
+			}
+		}
+		return ResultUtils.secusses();
+	}
+
+	@Override
+	public MaintainInfo getById(Long maintainInfoId) {
+		
+		return maintainInfoMapper.getById(maintainInfoId);
 	}
 
 }

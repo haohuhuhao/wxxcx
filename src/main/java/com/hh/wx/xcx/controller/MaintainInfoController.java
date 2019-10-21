@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultVo;
-import com.hh.wx.xcx.model.Appointment;
 import com.hh.wx.xcx.model.MaintainInfo;
-import com.hh.wx.xcx.service.AppointmentService;
 import com.hh.wx.xcx.service.MaintainInfoService;
 
 /**
@@ -41,5 +39,10 @@ public class MaintainInfoController {
 	@RequestMapping(value="update",method=RequestMethod.PUT)
 	public ResultVo<String> update(@RequestBody MaintainInfo maintainInfo){
 		return maintainInfoService.update(maintainInfo);
+	}
+	
+	@RequestMapping(value="changeStatus",method=RequestMethod.PUT)
+	public ResultVo<String> changeStatus(@RequestParam("id")Long id){
+		return maintainInfoService.changeStatus(id);
 	}
 }

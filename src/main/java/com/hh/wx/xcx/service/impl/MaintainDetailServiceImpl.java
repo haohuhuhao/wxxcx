@@ -38,4 +38,17 @@ public class MaintainDetailServiceImpl implements MaintainDetailService {
 		return ResultUtils.secusses();
 	}
 
+	@Override
+	public ResultVo<String> bacthCreate(List<MaintainDetail> maintainDetails) {
+		
+		maintainDetailMapper.bacthInsert(maintainDetails);
+		return ResultUtils.secusses();
+	}
+
+	@Override
+	public ResultVo<String> batchUpdate(List<MaintainDetail> maintainDetails) {
+		maintainDetailMapper.batchUpdate(maintainDetails);
+		return ResultUtils.secusses();
+	}
+
 }

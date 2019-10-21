@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultVo;
-import com.hh.wx.xcx.model.Appointment;
 import com.hh.wx.xcx.model.MaintainDetail;
-import com.hh.wx.xcx.model.MaintainInfo;
-import com.hh.wx.xcx.service.AppointmentService;
 import com.hh.wx.xcx.service.MaintainDetailService;
-import com.hh.wx.xcx.service.MaintainInfoService;
 
 /**
  * @author hh
@@ -29,8 +25,13 @@ public class MaintainDetailController {
 	private MaintainDetailService maintainDetailService;
 
 	@RequestMapping(value="create",method=RequestMethod.POST)
-	public ResultVo<String> createMaintainInfo(@RequestBody MaintainDetail maintainDetail){
+	public ResultVo<String> createMaintainDetail(@RequestBody MaintainDetail maintainDetail){
 		return maintainDetailService.create(maintainDetail);
+	}
+	
+	@RequestMapping(value="bacthCreate",method=RequestMethod.POST)
+	public ResultVo<String> bacthCreateMaintainDetail(@RequestBody List<MaintainDetail> maintainDetails){
+		return maintainDetailService.bacthCreate(maintainDetails);
 	}
 	
 	@RequestMapping(value="queryBymaintainInfoId",method=RequestMethod.GET)
@@ -42,5 +43,10 @@ public class MaintainDetailController {
 	@RequestMapping(value="update",method=RequestMethod.PUT)
 	public ResultVo<String> update(@RequestBody MaintainDetail maintainDetail){
 		return maintainDetailService.update(maintainDetail);
+	}
+	
+	@RequestMapping(value="batchUpdate",method=RequestMethod.PUT)
+	public ResultVo<String> batchUpdate(@RequestBody List<MaintainDetail> maintainDetails){
+		return maintainDetailService.batchUpdate(maintainDetails);
 	}
 }

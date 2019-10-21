@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hh.wx.xcx.service.mapper.MaintainDetailMapperr" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.MaintainDetailMapper">
 	<insert id="insert" parameterType="com.hh.wx.xcx.model.MaintainDetail">
 		insert into maintain_detail (
 		maintain_id,
@@ -36,8 +36,31 @@
 			maintain_id = #{maintainId}
 	</select>
 	
+	<insert id="bacthInsert" parameterType="java.util.List">
+		insert into maintain_detail (
+		maintain_id,
+		name,
+		detail,
+		remark,
+		imgs,
+		update_time,
+		create_time)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.maintainId},
+			#{item.name},
+			#{item.detail},
+			#{item.remark},
+			#{item.imgs},
+			now(),
+			now()
+		)
+		</foreach>
+	</insert>
+	
 	<update id="update" parameterType="com.hh.wx.xcx.model.MaintainDetail">
-		update maintain_info
+		update maintain_detail
 		<set>  
 	        <if test="remark!= null and remark != ''">  
 	           remark = #{remark},  
@@ -55,6 +78,29 @@
 	    </set>  
 	    
 	    where id = #{id}
+	</update>
+	
+	
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="item" open="" separator=";" close="">
+	    update maintain_detail
+	    <set>  
+	        <if test="remark!= null and remark != ''">  
+	           remark = #{remark},  
+	        </if>  
+	        <if test="name != null and name != ''">  
+	            name = #{name},  
+	        </if> 
+	        <if test="detail!= null and detail!=''">  
+	           detail = #{detail},  
+	        </if>  
+	        <if test="imgs != null and imgs != ''">  
+	            imgs = #{imgs},  
+	        </if> 
+	        update_time = now()
+	    </set>  
+	    WHERE id = #{item.id}
+	  </foreach>
 	</update>
 
 </mapper>

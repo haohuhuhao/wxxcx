@@ -15,4 +15,10 @@ public interface MaintainInfoMapper {
 	List<MaintainInfo> queryByCarIdAndAppId(@Param("carId")Long carId, @Param("appId")Long appId, @Param("status")Integer status);
 
 	void update(MaintainInfo maintainInfo);
+
+	Integer changeStatus(@Param("id")Long id,@Param("status") Integer status);
+
+	Integer getMaintainInfoStatus(@Param("id")Long id);
+
+	MaintainInfo getById(@Param("id")Long maintainInfoId);
 }
