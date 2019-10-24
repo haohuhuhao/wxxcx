@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.InsuranceDetailMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.InsuranceDetail">
+		insert into app (name,remark,user_id,effect_time,business_type,appid,secret,update_time,create_time)
+		values(#{name},#{remark},#{userId},#{effectTime},#{businessType},#{appid},#{secret},now(),now())
+	</insert>
+
+	<select id="queryAll" parameterType="com.hh.wx.xcx.model.AppInfo" resultType="com.hh.wx.xcx.model.AppInfo">
+		select 
+		<include refid="baseField"></include>
+		from
+			app 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="userId!=null">
+				and user_id = #{userId}
+			</if>
+			<if test="businessType!=null">
+				and business_type = #{businessType}
+			</if>
+			<if test="status!=null">
+				and status = #{status}
+			</if>
+		</trim>
+	</select>
+	
+	<sql id="baseField">
+			id id,
+			name name,
+			remark remark,
+			user_id userId,
+			effect_time effectTime,
+			business_type businessType,
+			status status,
+			appid appid,
+			secret secret,
+			update_time updateTime,
+			create_time createTime
+	</sql>
+	
+	<select id="getById" parameterType="long" resultType="com.hh.wx.xcx.model.AppInfo">
+		select 
+		<include refid="baseField"></include>
+		from
+			app 
+		where id = #{id}
+	</select>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.AppInfo">
+		update app 
+		set
+			<if test="status!=null">
+				status = #{status},
+			</if>	
+			<if test="name != null">
+				name = #{name},
+			</if>
+			
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="effectTime != null">
+				effect_time = #{effectTime},
+			</if>
+			<if test="appid != null">
+				appid = #{appid},
+			</if>
+			<if test="secret != null">
+				secret = #{secret},
+			</if>
+			update_time = now()
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="long">
+		delete from app where id = #{id}
+	</delete>
+</mapper>

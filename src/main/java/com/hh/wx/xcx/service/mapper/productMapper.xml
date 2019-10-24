@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.ProductMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.Product">
+		insert into product
+		 (
+			title,
+	  		price,
+	  		cut_price,
+	  		remark,
+		  	image,
+	  		business_type,
+	  		app_id,
+	  		status,
+	  		type,
+			update_time,
+			create_time)
+		values(#{title},
+				#{price},
+				#{cutPrice},
+				#{remark},
+				#{image},
+				#{businessType},
+				#{appId},
+				#{status}
+				#{type},
+				now(),
+				now())
+	</insert>
+	
+	<sql id="baseField">
+			id id
+			title title,
+	  		price price,
+	  		cut_price cutPrice,
+	  		remark remark,
+		  	image image,
+	  		business_type businessType,
+	  		app_id appId,
+	  		status status,
+	  		type type,
+			update_time updateTime,
+			create_time createTime
+	</sql>
+
+	<select id="queryAll" parameterType="com.hh.wx.xcx.model.Product" resultType="com.hh.wx.xcx.model.Product">
+		select 
+		<include refid="baseField"></include>
+		from
+			product 
+		<trim prefix="where" prefixOverrides="and">
+			
+			<if test="appId!=null">
+				and app_id = #{appId}
+			</if>
+			<if test="businessType!=null">
+				and business_type = #{businessType}
+			</if>
+			<if test="status!=null">
+				and status = #{status}
+			</if>
+			<if test="type!=null">
+				and type = #{type}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getById" parameterType="long" resultType="com.hh.wx.xcx.model.Product">
+		select 
+		<include refid="baseField"></include>
+		from
+			product 
+		where id = #{id}
+	</select>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.Product">
+		update product 
+		<set> 
+			<if test="image != null and image != ''">
+				image = #{image},
+			</if>	
+			<if test="title != null and title != ''">
+				title = #{title},
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark},
+			</if>
+			<if test="price != null">
+				price = #{price},
+			</if>
+			<if test="cutPrice != null">
+				cut_price = #{cutPrice},
+			</if>
+			update_time = now()
+		</set> 
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="long">
+		delete from product where id = #{id}
+	</delete>
+	
+	<update id="changeStatus">
+		update product set status = #{status}
+		where id = #{id}
+	</update>
+</mapper>

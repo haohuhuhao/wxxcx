@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50712
 File Encoding         : 65001
 
-Date: 2019-10-21 16:01:05
+Date: 2019-10-24 15:10:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -72,6 +72,17 @@ CREATE TABLE `car_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for images
+-- ----------------------------
+DROP TABLE IF EXISTS `images`;
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `img` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for maintain_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `maintain_detail`;
@@ -102,6 +113,26 @@ CREATE TABLE `maintain_info` (
   `maintainer` varchar(255) DEFAULT NULL,
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for product
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `price` int(11) NOT NULL,
+  `cut_price` int(11) DEFAULT NULL,
+  `remark` varchar(1000) DEFAULT NULL,
+  `image` varchar(200) NOT NULL,
+  `business_type` varchar(10) NOT NULL,
+  `app_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0未发布，1发布',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0为普通',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
