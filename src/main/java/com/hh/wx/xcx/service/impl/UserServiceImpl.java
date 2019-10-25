@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.hh.wx.xcx.commons.Base64Code;
+import com.hh.wx.xcx.commons.IdGenerator;
 import com.hh.wx.xcx.commons.LoginInfoUtils;
 import com.hh.wx.xcx.commons.LoginUserInfo;
 import com.hh.wx.xcx.commons.ResultUtils;
@@ -17,6 +18,7 @@ import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.commons.StringRegexUtils;
 import com.hh.wx.xcx.model.User;
 import com.hh.wx.xcx.service.UserService;
+import com.hh.wx.xcx.service.mapper.AppInfoMapper;
 import com.hh.wx.xcx.service.mapper.UserMapper;
 
 @Service
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private AppInfoMapper appInfoMapper;
 	
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
@@ -43,13 +48,15 @@ public class UserServiceImpl implements UserService {
 			return ResultUtils.fail("手机号已经注册");
 		}
 		
-		
+		if(StringUtils.isEmpty(user.getName())){
+			user.setName(phone);
+		}
 		String pwd = user.getPwd();
 		if(StringUtils.isEmpty(pwd.trim())){
-			user.setPwd("123456");
-		}else{
-			user.setPwd(DigestUtils.md5Hex(user.getPwd()));
+			pwd = "123456";
 		}
+		user.setId(IdGenerator.getInstance().generateId());
+		user.setPwd(DigestUtils.md5Hex(pwd));
 		userMapper.insert(user);
 		return ResultUtils.secusses();
 	}
@@ -69,18 +76,45 @@ public class UserServiceImpl implements UserService {
 		LoginUserInfo userInfo = new LoginUserInfo();
 		userInfo.setId(user.getId());
 		userInfo.setName(user.getName());
+		userInfo.setPhone(phone);
 		String userInfoStr = JSONObject.toJSONString(userInfo);
-		String key = Base64Code.getToken(userInfo.getId()+"");
+		String key = Base64Code.getToken(userInfo.getId()+""+System.currentTimeMillis());
 		redisTemplate.opsForValue().set(key, userInfoStr,60*60,TimeUnit.SECONDS);
 		return ResultUtils.secusses(key);
 	}
 
 	@Override
-	public ResultVo<String> update(User user) {
-		User userDb = LoginInfoUtils.getLoginInfo(User.class);
-		user.setId(userDb.getId());
+	public ResultVo<String> update(User user,String token) {
+		LoginUserInfo loginUserInfo = LoginInfoUtils.getLoginInfo(LoginUserInfo.class);
+		user.setId(loginUserInfo.getId());
+		String pwd = user.getPwd();
+		if(pwd!=null){
+			user.setPwd(DigestUtils.md5Hex(pwd));
+		}
 		
+		String name = user.getName();
+		if(name != null && !"".equals(name.trim())){
+			loginUserInfo.setName(name);
+			String userInfoStr = JSONObject.toJSONString(loginUserInfo);
+			redisTemplate.opsForValue().set(token, userInfoStr,60*60,TimeUnit.SECONDS);
+		}
 		userMapper.update(user);
+		
 		return ResultUtils.secusses();
+	}
+
+	@Override
+	public ResultVo<String> chooseAppId(Long appId,String token) {
+		LoginUserInfo loginUserInfo = LoginInfoUtils.getLoginInfo(LoginUserInfo.class);
+		boolean hasRight = appInfoMapper.isHasAppRight(appId,loginUserInfo.getId());
+		
+		if(hasRight){
+			loginUserInfo.setAppId(appId);
+			String userInfoStr = JSONObject.toJSONString(loginUserInfo);
+			redisTemplate.opsForValue().set(token, userInfoStr,60*60,TimeUnit.SECONDS);
+			return ResultUtils.secusses();
+		}else{
+			return ResultUtils.fail("对此应用无权限");
+		}
 	}
 }

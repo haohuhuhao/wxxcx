@@ -13,8 +13,6 @@ public class AppInfo extends BaseModel{
 	
 	private String remark;
 	
-	private Long userId;
-	
 	private Date effectTime;
 	
 	private Integer status;
@@ -24,5 +22,9 @@ public class AppInfo extends BaseModel{
 	private String appid;
 	
 	private String secret;
+	
+	private Long createUser;
+	
+	private String createUserName;
 	
 }

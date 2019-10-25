@@ -1,10 +1,7 @@
 package com.hh.wx.xcx.commons;
 
-import org.springframework.util.ClassUtils;
 
 public class IdGenerator {
-	String DIAMOND_LOAD = "cn.com.flaginfo.commons.spring.resource.centerconfig.CustomPropertyPlaceholderConfigurer";
-
     private volatile static IdGenerator instance;
     private volatile static SnowFlake snowFlake;
 

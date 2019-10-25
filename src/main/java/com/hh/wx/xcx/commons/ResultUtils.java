@@ -24,8 +24,13 @@ public interface ResultUtils {
 	}
 	
 	public static <T> ResultVo<T> fail(String msg){
+		
+		return fail(msg,-1);
+	}
+	
+	public static <T> ResultVo<T> fail(String msg,Integer code){
 		ResultVo<T> result = new ResultVo<>();
-		result.setCode(-1);
+		result.setCode(code);
 		result.setMsg(msg);
 		return result;
 	}

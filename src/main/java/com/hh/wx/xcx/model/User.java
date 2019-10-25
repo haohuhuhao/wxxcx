@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class User extends BaseModel{
 
-	private String name="";
+	private String name;
 	
-	private String pwd="";
+	private String pwd;
 	
-	private String phone="";
+	private String phone;
 	
 }

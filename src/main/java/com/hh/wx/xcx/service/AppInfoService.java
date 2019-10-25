@@ -1,5 +1,6 @@
 package com.hh.wx.xcx.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.hh.wx.xcx.commons.ResultVo;
@@ -16,5 +17,7 @@ public interface AppInfoService {
 	ResultVo<String> update(AppInfo app);
 
 	ResultVo<String> deleteById(Long id);
+
+	ResultVo<String> effect(Long id, Date effectTime);
 
 }

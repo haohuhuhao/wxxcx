@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50712
 File Encoding         : 65001
 
-Date: 2019-10-24 15:10:32
+Date: 2019-10-25 17:10:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,15 +20,15 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `app`;
 CREATE TABLE `app` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `name` varchar(255) DEFAULT NULL COMMENT '用户名称',
   `remark` varchar(255) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
   `effect_time` datetime DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '用户状态0正常-1禁用',
   `business_type` varchar(18) NOT NULL,
   `appid` varchar(18) NOT NULL,
   `secret` varchar(40) NOT NULL,
+  `create_user` bigint(20) NOT NULL,
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -79,6 +79,33 @@ CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `to_id` int(11) NOT NULL,
   `img` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for insurance
+-- ----------------------------
+DROP TABLE IF EXISTS `insurance`;
+CREATE TABLE `insurance` (
+  `id` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `app_id` int(11) NOT NULL,
+  `effect_time` datetime NOT NULL,
+  `crate_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for insurance_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `insurance_detail`;
+CREATE TABLE `insurance_detail` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `remark` varchar(255) NOT NULL,
+  `insurance_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -353,14 +380,14 @@ CREATE TABLE `remind` (
 -- ----------------------------
 DROP TABLE IF EXISTS `store_user`;
 CREATE TABLE `store_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL,
+  `name` varchar(20) NOT NULL,
   `pwd` varchar(64) DEFAULT NULL,
   `phone` varchar(11) NOT NULL,
   `update_time` datetime DEFAULT NULL,
   `create_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1234570 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
@@ -376,7 +403,21 @@ CREATE TABLE `user` (
   `phone` varchar(20) DEFAULT NULL,
   `img` varchar(200) DEFAULT NULL,
   `openid` varchar(100) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0普通用户；1关联用户；',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Table structure for user_app
+-- ----------------------------
+DROP TABLE IF EXISTS `user_app`;
+CREATE TABLE `user_app` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `app_id` bigint(20) NOT NULL,
+  `authority` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 一般权限；1管理员',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_app` (`user_id`,`app_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

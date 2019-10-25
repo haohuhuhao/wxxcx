@@ -9,6 +9,8 @@ public interface UserService {
 
 	ResultVo<String> loginByPhone(String nameOrPhone, String pwd);
 
-	ResultVo<String> update(User user);
+	ResultVo<String> update(User user,String token);
+
+	ResultVo<String> chooseAppId(Long appId,String token);
 
 }

@@ -2,38 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hh.wx.xcx.service.mapper.AppInfoMapper" >
 	<insert id="insert" parameterType="com.hh.wx.xcx.model.AppInfo">
-		insert into app (name,remark,user_id,effect_time,business_type,appid,secret,update_time,create_time)
-		values(#{name},#{remark},#{userId},#{effectTime},#{businessType},#{appid},#{secret},now(),now())
+		insert into app (
+		id,
+		name,
+		remark,
+		business_type,
+		appid,secret,
+		create_user,
+		update_time,
+		create_time)
+		values(#{id},#{name},#{remark},#{businessType},#{appid},#{secret},
+		#{createUser},now(),now())
 	</insert>
 
 	<select id="queryAll" parameterType="com.hh.wx.xcx.model.AppInfo" resultType="com.hh.wx.xcx.model.AppInfo">
-		select 
-		<include refid="baseField"></include>
-		from
-			app 
-		<trim prefix="where" prefixOverrides="and">
-			<if test="userId!=null">
-				and user_id = #{userId}
-			</if>
-			<if test="businessType!=null">
-				and business_type = #{businessType}
-			</if>
-			<if test="status!=null">
-				and status = #{status}
-			</if>
-		</trim>
+		SELECT appinfo.* ,su.name createUserName FROM
+			(SELECT 
+				a.id id,
+				a.name name,
+				a.remark remark,
+				a.effect_time effectTime,
+				a.business_type businessType,
+				a.status status,
+				a.appid appid,
+				a.secret secret,
+				a.create_user createUser,
+				a.update_time updateTime,
+				a.create_time createTime
+			FROM app a 
+			INNER JOIN user_app ua ON ua.user_id = #{createUser} AND a.id = ua.app_id
+			WHERE a.business_type = #{businessType}
+			)	appinfo 
+		LEFT JOIN store_user su ON su.id = appinfo.createUser
 	</select>
 	
 	<sql id="baseField">
 			id id,
 			name name,
 			remark remark,
-			user_id userId,
 			effect_time effectTime,
 			business_type businessType,
 			status status,
 			appid appid,
 			secret secret,
+			create_user createUser,
 			update_time updateTime,
 			create_time createTime
 	</sql>
@@ -49,18 +61,12 @@
 	<update id="update" parameterType="com.hh.wx.xcx.model.AppInfo">
 		update app 
 		set
-			<if test="status!=null">
-				status = #{status},
-			</if>	
 			<if test="name != null">
 				name = #{name},
 			</if>
 			
 			<if test="remark != null">
 				remark = #{remark},
-			</if>
-			<if test="effectTime != null">
-				effect_time = #{effectTime},
 			</if>
 			<if test="appid != null">
 				appid = #{appid},
@@ -75,4 +81,16 @@
 	<delete id="deleteById" parameterType="long">
 		delete from app where id = #{id}
 	</delete>
+	
+	<select id="effect">
+		UPDATE app 
+		SET 
+			status = 0,
+		    effect_time = #{effectTime}
+		WHERE id = #{id}
+	</select>
+	
+	<select id="isHasAppRight" resultType="boolean">
+		select count(1) from user_app where user_id = #{userId} and app_id = #{appId} 
+	</select>
 </mapper>

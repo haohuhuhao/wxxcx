@@ -1,6 +1,5 @@
 package com.hh.wx.xcx.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hh.wx.xcx.commons.model.BaseModel;
 
 import lombok.Data;
@@ -21,5 +20,10 @@ public class WxUser extends BaseModel{
 	
 	private String img;
 	
+	/**
+	 * 微信openid
+	 */
 	private String openid;
+	
+	private Integer type;
 }

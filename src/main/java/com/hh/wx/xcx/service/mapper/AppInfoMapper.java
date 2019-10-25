@@ -1,8 +1,10 @@
 package com.hh.wx.xcx.service.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.hh.wx.xcx.model.AppInfo;
 
@@ -18,4 +20,8 @@ public interface AppInfoMapper {
 	void update(AppInfo app);
 
 	void deleteById(Long id);
+
+	boolean isHasAppRight(@Param("appId")Long appId,@Param("userId") Long userId);
+
+	void effect(@Param("id") Long id,@Param("effectTime") Date effectTime);
 }

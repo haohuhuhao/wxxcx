@@ -1,12 +1,15 @@
 package com.hh.wx.xcx.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultVo;
@@ -49,6 +52,15 @@ public class AppInfoController {
 	public ResultVo<String> delete(@PathVariable("id") Long id){
 		
 		return appInfoService.deleteById(id);
+	}
+	
+	
+	@RequestMapping(value="effect/{id}",method=RequestMethod.PUT)
+	public ResultVo<String> effect(@PathVariable("id") Long id,
+			@RequestParam(value="effectTime" ,required=true) 
+			@DateTimeFormat(pattern="yyyy-MM-dd")Date effectTime){
+		
+		return appInfoService.effect(id,effectTime);
 	}
 }
 
