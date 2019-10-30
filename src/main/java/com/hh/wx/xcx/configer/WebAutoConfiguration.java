@@ -58,7 +58,7 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		InterceptorRegistration registration = registry.addInterceptor(new LoginInterceptor(redisTemplate));//.addPathPatterns("/intercept/**");
 		registration.addPathPatterns("/**");
-		registration.excludePathPatterns("/user/regist","/user/login");
+		registration.excludePathPatterns("/user/regist","/user/login","/wxUser/login");
 		
 		//registry.addInterceptor(new WxLoginInterceptor(redisTemplate)).addPathPatterns("/**/wxUser/**");
 		//.excludePathPatterns("/**/login");

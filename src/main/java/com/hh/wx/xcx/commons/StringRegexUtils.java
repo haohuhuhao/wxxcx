@@ -19,4 +19,17 @@ public class StringRegexUtils {
         }
         return b;
     }
+	
+	public static boolean isNum(String str) {
+        Pattern p = null;
+        Matcher m = null;
+        boolean b = false;
+        String s2="^[0-9]*$";// 验证数字
+        if(StringUtils.isNotBlank(str)){
+            p = Pattern.compile(s2);
+            m = p.matcher(str);
+            b = m.matches();
+        }
+        return b;
+    }
 }

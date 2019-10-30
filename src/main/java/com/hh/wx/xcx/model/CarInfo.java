@@ -27,6 +27,8 @@ public class CarInfo  extends BaseModel{
 	 * 里程
 	 */
 	private Long carMileage;
+	
+	private String image;
 	  
 	private Date carAge;
 }

@@ -3,15 +3,17 @@
 <mapper namespace="com.hh.wx.xcx.service.mapper.CarMapper" >
 	<insert id="insert" parameterType="com.hh.wx.xcx.model.CarInfo">
 		insert into car_info (
+		`id`,
   		`user_id`,
  		`car_num`,
   		`car_name`,
   		`car_model`,
   		`car_mileage`,
   		`car_age`,
+  		`image`,
   		`create_time`,
   		`update_time`)
-		values(#{userId},#{carNum},#{carName},#{carModel},#{carMileage},#{carAge},now(),now())
+		values(#{id},#{userId},#{carNum},#{carName},#{carModel},#{carMileage},#{carAge},#{image},now(),now())
 	</insert>
 	
 	<select id="queryByUserId" parameterType="long" resultType="com.hh.wx.xcx.model.CarInfo">

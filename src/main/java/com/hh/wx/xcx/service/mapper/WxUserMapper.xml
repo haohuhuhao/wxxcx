@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hh.wx.xcx.service.mapper.WxUserMapper" >
-	<insert id="insert" parameterType="com.hh.wx.xcx.model.WxUser">
-		insert into store_user (name,pwd,phone,update_time,create_time)
-		values(#{name},#{pwd},#{phone},now(),now())
-	</insert>
-
-	<select id="findOne" resultType="com.hh.wx.xcx.model.User">
-		select id,name,pwd,phone from store_user where phone = #{phone}
+	<select id="findByOpengId" parameterType="string" resultType="com.hh.wx.xcx.model.WxUser">
+		select id,
+			name,
+			age,
+			sex,
+			nick_name nickName,
+			addr,
+			phone,
+			img,
+			openid,
+			type
+		from user where openid = #{openid}
 	</select>
-	
-	<update id="update" parameterType="com.hh.wx.xcx.model.User">
-		update store_user 
-		<trim prefix="set" suffixOverrides=",">
-		  <if test="name!=null">name=#{name},</if>
-		</trim>
-		 WHERE id=#{id}
-	</update>
 </mapper>

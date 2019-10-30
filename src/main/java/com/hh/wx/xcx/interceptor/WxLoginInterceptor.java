@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hh.wx.xcx.commons.LoginInfoUtils;
-import com.hh.wx.xcx.commons.LoginUserInfo;
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.commons.WXLoginUserInfo;
@@ -45,6 +44,15 @@ public class WxLoginInterceptor implements HandlerInterceptor{
 			throws Exception {
 		ResultVo<String> res = null;
 		String token = request.getHeader("token");
+		
+		boolean isApp = false;
+		String userAgent = request.getHeader("user-agent");
+		if(log.isDebugEnabled()){
+			log.info("user-agent为："+userAgent);
+		}
+		if(userAgent.indexOf("iPhone")!=-1 || userAgent.indexOf("Android")!=-1){
+			isApp = true;
+		}
 		String businessType = request.getHeader("businessType");
 		if(StringUtils.isEmpty(token)){
 			res = ResultUtils.fail("token不能为空");

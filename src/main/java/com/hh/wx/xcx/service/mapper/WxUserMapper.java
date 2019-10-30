@@ -1,16 +1,12 @@
 package com.hh.wx.xcx.service.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import com.hh.wx.xcx.model.User;
+import com.hh.wx.xcx.model.WxUser;
 
 @Mapper
 public interface WxUserMapper {
 
-	void insert(User user);
+	WxUser findByOpengId(String openid);
 
-	User findOne( @Param("phone")String phone);
-
-	void update(User user);
 }

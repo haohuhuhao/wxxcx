@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
+import com.hh.wx.xcx.model.WxUser;
 import com.hh.wx.xcx.service.WxUserService;
 import com.hh.wx.xcx.utils.wx.WxDataHander;
 import com.hh.wx.xcx.wx.model.WxSession;
@@ -24,7 +25,7 @@ public class WxUserInfoController {
 	
 	@RequestMapping("login")
 	public ResultVo<String> login(String code,@RequestHeader HttpHeaders headers){
-		if(headers.get("token")!=null){
+		/*if(headers.get("token")!=null){
 			
 		}
 		WxSession session = wxDataHander.getWxSession(code);
@@ -34,8 +35,14 @@ public class WxUserInfoController {
 			String openid = session.getOpenid();
 			headers.getFirst("");
 			//wxUserService.findByOpengId(openid);
+		}*/
+		String openid = "123456";
+		String token = wxUserService.getLogin(openid);
+		if(token == null){
+			return ResultUtils.fail("需要授权", -4);
 		}
 		
-		return ResultUtils.secusses();
+		
+		return ResultUtils.secusses(token);
 	}
 }
