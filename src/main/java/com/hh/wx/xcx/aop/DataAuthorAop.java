@@ -18,7 +18,6 @@ public class DataAuthorAop {
 	// 在这里定义@CheckNotNull的增强方法
 	@Around("checkDataAuthor()")
     public Object methodsAnnotatedWithCheckNotNull(ProceedingJoinPoint joinPoint) throws Throwable {
-        System.out.println("sssss");
         return joinPoint.proceed();
     }
 }

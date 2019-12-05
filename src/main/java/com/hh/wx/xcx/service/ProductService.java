@@ -1,6 +1,7 @@
 package com.hh.wx.xcx.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.model.Product;
@@ -18,5 +19,4 @@ public interface ProductService {
 	ResultVo<String> changeStatus(Long id,Integer status);
 
 	ResultVo<String> deleteById(Long id);
-
 }

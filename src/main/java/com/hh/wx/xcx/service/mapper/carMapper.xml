@@ -25,6 +25,7 @@
   		`car_model` carModel,
   		`car_mileage` carMileage,
   		`car_age` carAge,
+  		`image` image,
   		`create_time` createTime,
   		`update_time` updateTime
   		from car_info

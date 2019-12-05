@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.ProductTypeMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.ProductType">
+		insert into product_type
+		 (
+			id,
+	  		type,
+	  		code,
+	  		icon,
+			update_time,
+			create_time)
+		values(#{id},
+				#{type},
+				#{code},
+				#{icon},
+				now(),
+				now())
+	</insert>
+	
+	<sql id="baseField">
+			id id
+			type type,
+	  		code code,
+	  		icon icon,
+			update_time updateTime,
+			create_time createTime
+	</sql>
+
+	<select id="queryAll" parameterType="com.hh.wx.xcx.model.ProductType" resultType="com.hh.wx.xcx.model.ProductType">
+		select 
+		<include refid="baseField"></include>
+		from
+			product_type
+		<trim prefix="where" prefixOverrides="and">
+			
+			<if test="type!=null">
+				and type = #{tyoe}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getById" parameterType="long" resultType="com.hh.wx.xcx.model.ProductType">
+		select 
+		<include refid="baseField"></include>
+		from
+			product_type
+		where id = #{id}
+	</select>
+	
+	<update id="update" parameterType="com.hh.wx.xcx.model.ProductType">
+		update product 
+		<set> 
+			<if test="type != null and type != ''">
+				type = #{type},
+			</if>
+			<if test="icon != null and icon != ''">
+				remark = #{remark},
+			</if>
+			update_time = now()
+		</set> 
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="long">
+		delete from product_type where id = #{id}
+	</delete>
+	
+	<select id="queryProductType" resultType="com.hh.wx.xcx.model.ProductType">
+		select id,type,code,icon from productType where id in(select type_id from app_for_product where app_id = #{businessType} and business_type = #{appId})
+	</select>
+	
+	<insert id="addMapping" parameterType="com.hh.wx.xcx.model.AppForProduct">
+		insert into app_for_product
+		 (
+	  		app_id,
+	  		type_id,
+	  		business_type)
+		values(#{id},
+				#{type},
+				#{code},
+				#{icon},
+				now(),
+				now())
+	</insert>
+</mapper>

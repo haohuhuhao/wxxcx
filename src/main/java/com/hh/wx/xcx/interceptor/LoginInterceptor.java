@@ -45,14 +45,11 @@ public class LoginInterceptor implements HandlerInterceptor{
 			throws Exception {
 		ResultVo<String> res = null;
 		String token = request.getHeader("token");
-		String appIdStr = request.getHeader("appId");
 		String businessType = request.getHeader("businessType");
 		if(StringUtils.isEmpty(token)){
 			res = ResultUtils.fail("token不能为空");
-		}else if(StringUtils.isEmpty(businessType) || StringUtils.isEmpty(appIdStr)){
+		}else if(StringUtils.isEmpty(businessType)){
 			res = ResultUtils.fail("平台信息不全");
-		}else if(!StringRegexUtils.isNum(appIdStr)){
-			res = ResultUtils.fail("appId不为数字");
 		}else{
 			String UserInfoStr = (String) redisTemplate.opsForValue().get(token);
 			if(StringUtils.isEmpty(UserInfoStr)){
@@ -63,9 +60,10 @@ public class LoginInterceptor implements HandlerInterceptor{
 				if(log.isDebugEnabled()){
 					log.info("user-agent为："+userAgent);
 				}
-				if(userAgent.indexOf("iPhone")!=-1 || userAgent.indexOf("Android")!=-1){
+				if(userAgent.indexOf("iPhone")==-1 || userAgent.indexOf("Android")==-1){
 					user = JSONObject.parseObject(UserInfoStr, LoginUserInfo.class);
 				}else {
+					String appIdStr = request.getHeader("appId");
 					user = JSONObject.parseObject(UserInfoStr, WXLoginUserInfo.class);
 					user.setAppId(Long.valueOf(appIdStr));
 				}

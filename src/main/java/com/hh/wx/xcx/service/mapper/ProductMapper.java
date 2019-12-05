@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hh.wx.xcx.model.Product;
+import com.hh.wx.xcx.model.ProductType;
 
 @Mapper
 public interface ProductMapper {

@@ -60,5 +60,4 @@ public class ProductServiceImpl implements ProductService {
 		productMapper.changeStatus(id,status);
 		return ResultUtils.secusses();
 	}
-	
 }

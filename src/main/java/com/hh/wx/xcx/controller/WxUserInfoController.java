@@ -24,8 +24,8 @@ public class WxUserInfoController {
 	private WxUserService wxUserService;
 	
 	@RequestMapping("login")
-	public ResultVo<String> login(String code,@RequestHeader HttpHeaders headers){
-		/*if(headers.get("token")!=null){
+	public ResultVo<String> login(String code,@RequestHeader HttpHeaders headers,String appId){
+		if(headers.get("token")!=null){
 			
 		}
 		WxSession session = wxDataHander.getWxSession(code);
@@ -35,7 +35,7 @@ public class WxUserInfoController {
 			String openid = session.getOpenid();
 			headers.getFirst("");
 			//wxUserService.findByOpengId(openid);
-		}*/
+		}
 		String openid = "123456";
 		String token = wxUserService.getLogin(openid);
 		if(token == null){
