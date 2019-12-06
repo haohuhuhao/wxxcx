@@ -6,7 +6,6 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.quartz.JobDetail;
-import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

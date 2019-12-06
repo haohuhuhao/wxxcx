@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.model.Product;
-import com.hh.wx.xcx.model.ProductType;
 import com.hh.wx.xcx.service.ProductService;
 
 @RestController

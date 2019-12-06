@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hh.wx.xcx.commons.LoginInfoUtils;
-import com.hh.wx.xcx.commons.LoginUserInfo;
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.commons.WXLoginUserInfo;

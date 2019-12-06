@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,8 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.hh.wx.xcx.argumentResolver.RequestModelArgumentResolver;
 import com.hh.wx.xcx.interceptor.LoginInterceptor;
-import com.hh.wx.xcx.interceptor.WxLoginInterceptor;
 
 @Configuration
 public class WebAutoConfiguration implements WebMvcConfigurer {
@@ -58,12 +59,18 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		InterceptorRegistration registration = registry.addInterceptor(new LoginInterceptor(redisTemplate));//.addPathPatterns("/intercept/**");
 		registration.addPathPatterns("/**");
-		registration.excludePathPatterns("/user/regist","/user/login","/wxUser/login");
+		registration.excludePathPatterns("/test","/user/regist","/user/login","/wxUser/login");
 		
 		//registry.addInterceptor(new WxLoginInterceptor(redisTemplate)).addPathPatterns("/**/wxUser/**");
 		//.excludePathPatterns("/**/login");
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
+	}
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(new RequestModelArgumentResolver());
+		//WebMvcConfigurer.super.addArgumentResolvers(resolvers);
 	}
 	
 

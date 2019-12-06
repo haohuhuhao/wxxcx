@@ -22,7 +22,8 @@ public class MaintainInfoPublicEventListener {
 
 	@Subscribe
 	public void onEvent(MaintainInfoPublicEvent event){
-		MaintainInfo maintainInfo = maintainInfoService.getById(event.getMaintainInfoId());
+		System.out.println("ssss");
+		//MaintainInfo maintainInfo = maintainInfoService.getById(event.getMaintainInfoId());
 		
 		//myScheduler.startJob(cron, jobName, jobGroup, jobClass);
 	}
