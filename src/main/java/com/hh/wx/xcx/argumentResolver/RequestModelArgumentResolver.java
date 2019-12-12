@@ -1,19 +1,21 @@
 package com.hh.wx.xcx.argumentResolver;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hh.wx.xcx.annotation.RequestModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,7 @@ public class RequestModelArgumentResolver implements HandlerMethodArgumentResolv
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		
 		NativeWebRequest requestLocal = webRequestLocal.get();
+		
 		webRequestLocal.set(webRequest);
 		if(!(requestLocal == webRequest)){
 			parameterDataLocal.set(getRequestBodyStr(webRequest));
@@ -42,10 +45,83 @@ public class RequestModelArgumentResolver implements HandlerMethodArgumentResolv
 	}
 	
 	private Object resolveArgument(MethodParameter parameter){
+		String requestBodyStr = parameterDataLocal.get();
 		RequestModel model = parameter.getParameterAnnotation(RequestModel.class);
-		//parameter.getGenericParameterType() 返回参数的完整类型（带泛型） 
-		Type type = parameter.getGenericParameterType();
-		final Object o = JSON.parseObject(parameterDataLocal.get(), type);
+		if(StringUtils.isEmpty(requestBodyStr)){
+			return null;
+		}
+		String paramKey = model.value();
+		if(StringUtils.isNotEmpty(paramKey)){
+			List<String> keys = Arrays.asList(paramKey.split("\\."));
+			for(String key:keys){
+				requestBodyStr = JSONObject.parseObject(requestBodyStr).getString(key);
+			}
+		}
+		
+		//Type type = parameter.getGenericParameterType();
+		
+		Class<?> clazz = parameter.getParameterType();
+		
+		if(StringUtils.isEmpty(requestBodyStr)){
+			if(model.required()){
+				throw new RuntimeException("比需参数："+paramKey+",缺失");
+			}
+			
+			if(clazz.isPrimitive()){
+				return toBeBaseType(clazz,requestBodyStr);
+			}
+			return null;
+		}
+		
+		Object result = toBeBaseType(clazz,requestBodyStr);
+		if(result != null){
+			return result;
+		}
+		return JSONObject.parseObject(requestBodyStr, clazz);
+	}
+	
+	private Object  toBeBaseType(Class<?> clazz,String requestBodyStr){
+		if(clazz.equals(String.class)){
+			return requestBodyStr;
+		}
+		
+		if(clazz.equals(Integer.class)){
+			return Integer.valueOf(requestBodyStr);
+		}
+		
+		if(clazz.equals(Long.class)){
+			return Long.valueOf(requestBodyStr);
+		}
+		
+		if(clazz.equals(Boolean.class)){
+			return Boolean.valueOf(requestBodyStr);
+		}
+		
+		if(clazz.isPrimitive()){
+			if(clazz.equals(int.class)){
+				if(StringUtils.isEmpty(requestBodyStr)){
+					return 0;
+				}
+				return Integer.valueOf(requestBodyStr);
+			}
+			
+			if(clazz.equals(long.class)){
+				if(StringUtils.isEmpty(requestBodyStr)){
+					return 0l;
+				}
+				return Long.valueOf(requestBodyStr);
+			}
+			
+			if(clazz.equals(boolean.class)){
+				if(StringUtils.isEmpty(requestBodyStr)){
+					return false;
+				}
+				return Integer.valueOf(requestBodyStr);
+			}
+			
+		}
+		
+		
 		return null;
 	}
 	
@@ -71,5 +147,4 @@ public class RequestModelArgumentResolver implements HandlerMethodArgumentResolv
 		
 		return null;
 	}
-
 }

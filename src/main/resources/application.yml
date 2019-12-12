@@ -9,9 +9,9 @@ spring:
   datasource:
     name: mydb
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://192.168.222.136:3306/test?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: 1234
+    url: jdbc:mysql://120.77.178.87:3306/car?useUnicode=true&characterEncoding=UTF-8
+    username: hh
+    password: db_Car#89
     driver-class-name: com.mysql.jdbc.Driver
     minIdle: 1
     maxActive: 2
@@ -27,7 +27,7 @@ spring:
   redis: 
     database: 0
 # Redis服务器地址   
-    host: 192.168.222.136
+    host: 120.77.178.87
 # Redis服务器连接端口  
     port: 6385
 # Redis服务器连接密码（默认为空）  
@@ -64,5 +64,5 @@ fdfs:
   thumb-image:             #缩略图生成参数
     width: 200
     height: 200
-  tracker-list: 192.168.222.136:22122
+  tracker-list: 120.77.178.87:22122
     #TrackerList参数,支持多个
