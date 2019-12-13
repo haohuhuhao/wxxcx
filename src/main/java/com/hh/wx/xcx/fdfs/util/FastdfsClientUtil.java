@@ -3,6 +3,8 @@ package com.hh.wx.xcx.fdfs.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import com.github.tobato.fastdfs.domain.fdfs.ThumbImageConfig;
 import com.github.tobato.fastdfs.domain.upload.FastFile;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 
 @Component
 public class FastdfsClientUtil {
@@ -43,8 +46,8 @@ public class FastdfsClientUtil {
    
    //上传文件
    public String upload(byte[] bs,String fileName) throws Exception{
-	   
-	  FastFile file = new FastFile(new ByteArrayInputStream(bs),bs.length,fileName,null);
+	  Set<MetaData> metadata = new HashSet<MetaData>();
+	  FastFile file = new FastFile(new ByteArrayInputStream(bs),bs.length,fileName,metadata);
       StorePath storePath = this.storageClient.uploadFile(file);
  
       String path = storePath.getFullPath();
