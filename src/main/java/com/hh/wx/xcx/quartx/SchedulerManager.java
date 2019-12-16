@@ -4,11 +4,13 @@ import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -30,7 +32,7 @@ public class SchedulerManager
      * @throws SchedulerException
      */
     public void startJob(String cron, String jobName, String jobGroup,
-                         Class<? extends Job> jobClass)
+                         Class<? extends Job> jobClass,JobDataMap jobDataMap)
         throws SchedulerException
     {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -42,7 +44,7 @@ public class SchedulerManager
         JobKey jobKey = new JobKey(jobName, jobGroup);
         if (!scheduler.checkExists(jobKey))
         {
-            scheduleJob(cron, scheduler, jobName, jobGroup, jobClass);
+            scheduleJob(cron, scheduler, jobName, jobGroup, jobClass, jobDataMap);
         }
     }
  
@@ -112,18 +114,22 @@ public class SchedulerManager
      * @throws SchedulerException
      */
     private void scheduleJob(String cron, Scheduler scheduler, String jobName, String jobGroup,
-                             Class<? extends Job> jobClass)
+                             Class<? extends Job> jobClass,JobDataMap jobDataMap)
         throws SchedulerException
     {
         /*
          *  此处可以先通过任务名查询数据库，如果数据库中存在该任务，更新任务的配置以及触发器
          *  如果此时数据库中没有查询到该任务，则按照下面的步骤新建一个任务，并配置初始化的参数，并将配置存到数据库中
          */
-        JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroup).build();
+        JobDetail jobDetail = JobBuilder.newJob(jobClass).setJobData(jobDataMap).withIdentity(jobName, jobGroup).build();
         // 每5s执行一次
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
-        CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(jobName,
-            jobGroup).withSchedule(scheduleBuilder).build();
+        CronTrigger cronTrigger = TriggerBuilder.newTrigger()
+        		.startNow()
+        		.withIdentity(jobName,jobGroup)
+        		.withSchedule(scheduleBuilder)
+        		.build();
+        
  
         scheduler.scheduleJob(jobDetail, cronTrigger);
     }
