@@ -13,6 +13,8 @@ public interface AppInfoService {
 	ResultVo<List<AppInfo>> queryAll(AppInfo app);
 
 	ResultVo<AppInfo> getById(Long id);
+	
+	AppInfo getEntryById(Long id);
 
 	ResultVo<String> update(AppInfo app);
 

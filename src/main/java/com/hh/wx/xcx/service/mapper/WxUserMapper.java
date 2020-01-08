@@ -9,4 +9,6 @@ public interface WxUserMapper {
 
 	WxUser findByOpengId(String openid);
 
+	void addUser(WxUser user);
+
 }

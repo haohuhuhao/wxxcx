@@ -12,4 +12,7 @@ public class UserAppInfo extends BaseModel{
 	private Long appId;
 	
 	private Integer authority;
+	
+	private String businessType;
+	
 }

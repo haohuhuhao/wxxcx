@@ -40,13 +40,18 @@ public class WxUserServiceImpl implements WxUserService {
 	}
 
 	@Override
-	public String getLogin(String openid) {
-		WxUser wxUser = findByOpengId(openid);
+	public String getLogin(WxUser wxUser) {
 		
 		if(wxUser != null){
 			return addUserToSession(wxUser);
 		}
 		return null;
+	}
+
+	@Override
+	public void addUser(WxUser user) {
+		wxUserMapper.addUser(user);
+		
 	}
 
 }

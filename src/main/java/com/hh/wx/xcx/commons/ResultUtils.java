@@ -34,4 +34,12 @@ public interface ResultUtils {
 		result.setMsg(msg);
 		return result;
 	}
+	
+	public static <T> ResultVo<T> failWithData(String msg,T data,Integer code){
+		ResultVo<T> result = new ResultVo<>();
+		result.setCode(code);
+		result.setData(data);
+		result.setMsg(msg);
+		return result;
+	}
 }

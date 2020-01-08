@@ -6,6 +6,8 @@ public interface WxUserService {
 
 	WxUser findByOpengId(String openid);
 	
-	String getLogin(String openid);
+	String getLogin(WxUser wxUser);
+
+	void addUser(WxUser user);
 
 }

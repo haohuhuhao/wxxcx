@@ -7,12 +7,14 @@
 			id,
 			user_id,
 			app_id,
-			authority
+			authority,
+			business_type
 		)values(
 			#{id},
 			#{userId},
 			#{appId},
-			#{authority}
+			#{authority},
+			#{businessType}
 		)
 	</insert>
 </mapper>

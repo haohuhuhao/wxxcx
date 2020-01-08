@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hh.wx.xcx.annotation.RequestModel;
+import com.hh.wx.xcx.commons.IdGenerator;
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.model.WxUser;
@@ -24,25 +26,43 @@ public class WxUserInfoController {
 	private WxUserService wxUserService;
 	
 	@RequestMapping("login")
-	public ResultVo<String> login(String code,@RequestHeader HttpHeaders headers,String appId){
+	public ResultVo<String> login(String code,@RequestHeader HttpHeaders headers,Long appId){
 		if(headers.get("token")!=null){
 			
 		}
-		WxSession session = wxDataHander.getWxSession(code);
+		WxSession session = wxDataHander.getWxSession(code,appId);
 		if(session == null){
 			return ResultUtils.fail("wxSession过期");
 		}else{
 			String openid = session.getOpenid();
-			headers.getFirst("");
-			//wxUserService.findByOpengId(openid);
+			WxUser wxUser = wxUserService.findByOpengId(openid);
+			if(wxUser != null){
+				String token = wxUserService.getLogin(wxUser);
+				if(token == null){
+					return ResultUtils.fail("登陆失败", -1);
+				}else{
+					return ResultUtils.secusses(token);
+				}
+			}else{
+				return ResultUtils.failWithData("需要授权",openid, -4);
+			}
 		}
-		String openid = "123456";
-		String token = wxUserService.getLogin(openid);
-		if(token == null){
-			return ResultUtils.fail("需要授权", -4);
-		}
-		
-		
-		return ResultUtils.secusses(token);
 	}
+	
+	@RequestMapping("regiest")
+	public ResultVo<String> regiest(@RequestModel WxUser user){
+		
+		user.setId(IdGenerator.getInstance().generateId());
+		user.setType(0);
+		wxUserService.addUser(user);
+		String token = wxUserService.getLogin(user);
+		if(token != null){
+			return ResultUtils.secusses(token);
+		}else{
+			return ResultUtils.fail("新增用户登陆失败");
+		}
+		
+	}
+	
+	
 }

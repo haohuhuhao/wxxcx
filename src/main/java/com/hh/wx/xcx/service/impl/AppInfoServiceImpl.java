@@ -41,6 +41,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 		
 		UserAppInfo userAppInfo = new UserAppInfo();
 		userAppInfo.setAppId(appId);
+		userAppInfo.setBusinessType(loginUserInfo.getBusinessType());
 		userAppInfo.setUserId(loginUserInfo.getId());
 		userAppInfo.setAuthority(1);
 		userAppInfo.setId(IdGenerator.getInstance().generateId());
@@ -60,8 +61,13 @@ public class AppInfoServiceImpl implements AppInfoService {
 	@DataAuthor
 	@Override
 	public ResultVo<AppInfo> getById(Long id) {
-		AppInfo app = appInfoMapper.getById(id);
-		return ResultUtils.secusses(app);
+		return ResultUtils.secusses(getEntryById(id));
+	}
+	
+	@Override
+	public AppInfo getEntryById(Long id) {
+		
+		return appInfoMapper.getById(id);
 	}
 
 	@Override
