@@ -20,11 +20,13 @@ public class Appointment extends BaseModel{
 	
 	private String phone;
 	
+	private String contact;
+	
 	private Long appId;
 	
-	private Integer status;
+	private String businessType;
 	
-	private String openid;
+	private Integer status;
 	
 	private Integer type;
 	

@@ -3,23 +3,28 @@
 <mapper namespace="com.hh.wx.xcx.service.mapper.AppointmentMapper" >
 	<insert id="insert" parameterType="com.hh.wx.xcx.model.Appointment">
 		insert into appointment (
+		id,
 		user_id,
 		time,
 		phone,
+		contact,
 		app_id,
 		status,
-		openid,
+		business_type,
 		type,
 		belong_id,
 		update_time,
 		create_time)
 		values(
+		#{id},
 		#{userId},
 		#{time},
 		#{phone},
+		#{contact},
 		#{appId},
 		#{status},
-		#{openid},
+		#{businessType},
+		#{type},
 		#{belongId},
 		now(),
 		now())

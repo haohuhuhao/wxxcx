@@ -4,8 +4,9 @@
 	<insert id="insert" parameterType="com.hh.wx.xcx.model.Car2App">
 		insert into car_app (
   		`car_id`,
- 		`app_id`)
-		values(#{carId},#{appId})
+ 		`app_id`,
+ 		create_time)
+		values(#{carId},#{appId},now())
 	</insert>
 	
 	<delete id="deleteByIdAndAppId"> 
