@@ -69,7 +69,7 @@
 	</delete>
 	
 	<update id="update" parameterType="com.hh.wx.xcx.model.CarInfo">
-		update form 
+		update car_info 
 		<set>  
         <if test="carNum!= null and carNum!= '' ">  
             car_num = #{carNum},  

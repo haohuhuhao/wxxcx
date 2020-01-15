@@ -60,12 +60,12 @@ public class LoginInterceptor implements HandlerInterceptor{
 				if(log.isDebugEnabled()){
 					log.info("user-agent为："+userAgent);
 				}
-				if(userAgent.indexOf("iPhone")==-1 || userAgent.indexOf("Android")==-1){
-					user = JSONObject.parseObject(UserInfoStr, LoginUserInfo.class);
-				}else {
+				if(userAgent.indexOf("iPhone")!=-1 || userAgent.indexOf("Android")!=-1){
 					String appIdStr = request.getHeader("appId");
 					user = JSONObject.parseObject(UserInfoStr, WXLoginUserInfo.class);
 					user.setAppId(Long.valueOf(appIdStr));
+				}else {
+					user = JSONObject.parseObject(UserInfoStr, LoginUserInfo.class);
 				}
 				user.setBusinessType(businessType);
 				redisTemplate.opsForValue().set(token, UserInfoStr,60*60,TimeUnit.SECONDS);

@@ -19,7 +19,7 @@ public class Car2AppController {
 	private Car2AppService car2AppService;
 	
 
-	@RequestMapping(value="add",method=RequestMethod.GET)
+	@RequestMapping(value="add",method=RequestMethod.PUT)
 	public ResultVo<String> addByUser(Long carId){
 		
 		return car2AppService.insert(carId);
