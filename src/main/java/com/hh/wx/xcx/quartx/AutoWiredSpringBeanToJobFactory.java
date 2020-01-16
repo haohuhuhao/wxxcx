@@ -10,14 +10,16 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
  * @author Button
  * 为JobFactory注入SpringBean,否则Job无法使用Spring创建的bean
  */
-public class AutoWiredSpringBeanToJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
+public class AutoWiredSpringBeanToJobFactory extends SpringBeanJobFactory{
 	private transient AutowireCapableBeanFactory beanFactory;
 
     @Override
     public void setApplicationContext(final ApplicationContext context) {
-        beanFactory = context.getAutowireCapableBeanFactory();
+    	if(beanFactory == null){
+    		beanFactory = context.getAutowireCapableBeanFactory();
+    	}
     }
-
+    
     @Override
     protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {
         final Object job = super.createJobInstance(bundle);

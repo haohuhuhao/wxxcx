@@ -36,7 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		//appointmentMapper.insert(appointment);
 		
 		//发布提醒任务
-		defaultDomainEventPublisher.postAsync(new AppointmentEvent(id,appointment.getType(),appointment.getTime()));
+		defaultDomainEventPublisher.postAsync(new AppointmentEvent(id,appointment.getType(),appointment.getTime(),loginUserInfo.getOpenid(),loginUserInfo.getAppId()));
 		
 		return ResultUtils.secusses();
 	}

@@ -13,7 +13,6 @@ import com.hh.wx.xcx.commons.ResultVo;
 import com.hh.wx.xcx.model.WxUser;
 import com.hh.wx.xcx.service.WxUserService;
 import com.hh.wx.xcx.utils.wx.WxDataHander;
-import com.hh.wx.xcx.wx.model.WxSession;
 
 @RestController
 @RequestMapping("wxUser")

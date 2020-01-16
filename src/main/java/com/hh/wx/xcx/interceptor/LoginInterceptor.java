@@ -16,7 +16,6 @@ import com.hh.wx.xcx.commons.LoginInfoUtils;
 import com.hh.wx.xcx.commons.LoginUserInfo;
 import com.hh.wx.xcx.commons.ResultUtils;
 import com.hh.wx.xcx.commons.ResultVo;
-import com.hh.wx.xcx.commons.StringRegexUtils;
 import com.hh.wx.xcx.commons.WXLoginUserInfo;
 
 import lombok.extern.slf4j.Slf4j;

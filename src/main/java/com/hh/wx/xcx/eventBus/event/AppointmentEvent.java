@@ -24,12 +24,18 @@ public class AppointmentEvent extends DomainEvent{
 	private Integer type;
 	
 	private Date time;
+	
+	private String openid;
+	
+	private Long appId;
 
-	public AppointmentEvent(Long appointmentId, Integer type, Date time) {
+	public AppointmentEvent(Long appointmentId, Integer type, Date time,String openid,Long appId) {
 		super(UUID.randomUUID().toString());
 		this.AppointmentId = appointmentId;
 		this.type = type;
 		this.time = time;
+		this.openid = openid;
+		this.appId = appId;
 	}
 	
 	

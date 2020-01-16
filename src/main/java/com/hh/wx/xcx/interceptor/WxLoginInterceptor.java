@@ -20,6 +20,7 @@ import com.hh.wx.xcx.commons.WXLoginUserInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Deprecated
 public class WxLoginInterceptor implements HandlerInterceptor{
 	
 	private RedisTemplate<String, Object> redisTemplate;

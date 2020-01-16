@@ -26,4 +26,9 @@ public class WxUser extends BaseModel{
 	private String openid;
 	
 	private Integer type;
+	
+	/**
+	 * 应用id
+	 */
+	private Long appId;
 }

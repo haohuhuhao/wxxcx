@@ -56,8 +56,8 @@ public class HttpUtils {
     	}
     	
         	headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        	headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        	HttpEntity<Object>	entity = new HttpEntity<Object>(param, headers);
+        	headers.setAccept(Arrays.asList(MediaType.ALL));
+        	HttpEntity<String>	entity = new HttpEntity<String>(JSONObject.toJSONString(param), headers);
     	
     	T re = null;
     	

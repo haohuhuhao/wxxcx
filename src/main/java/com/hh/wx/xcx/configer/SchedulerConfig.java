@@ -34,7 +34,7 @@ public class SchedulerConfig {
 	    public JobFactory jobFactory(ApplicationContext applicationContext)
 	    {
 			AutoWiredSpringBeanToJobFactory jobFactory = new AutoWiredSpringBeanToJobFactory();
-	        jobFactory.setApplicationContext(applicationContext);
+	        //jobFactory.setApplicationContext(applicationContext);
 	        return jobFactory;
 	    }
 		

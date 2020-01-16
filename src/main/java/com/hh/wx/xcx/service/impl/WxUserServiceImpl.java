@@ -33,6 +33,7 @@ public class WxUserServiceImpl implements WxUserService {
 		wxUserInfo.setId(wxUser.getId());
 		wxUserInfo.setName(wxUser.getName());
 		wxUserInfo.setPhone(wxUser.getPhone());
+		wxUserInfo.setOpenid(wxUser.getOpenid());
 		String userInfoStr = JSONObject.toJSONString(wxUserInfo);
 		String key = Base64Code.getToken(wxUserInfo.getId()+""+System.currentTimeMillis());
 		redisTemplate.opsForValue().set(key, userInfoStr,60*60,TimeUnit.SECONDS);
