@@ -3,6 +3,7 @@
 <mapper namespace="com.hh.wx.xcx.service.mapper.MaintainInfoMapper" >
 	<insert id="insert" parameterType="com.hh.wx.xcx.model.MaintainInfo">
 		insert into maintain_info (
+		id,
 		app_id,
 		car_id,
 		maintain_time,
@@ -13,6 +14,7 @@
 		update_time,
 		create_time)
 		values(
+		#{id}
 		#{appId},
 		#{carId},
 		#{maintainTime},

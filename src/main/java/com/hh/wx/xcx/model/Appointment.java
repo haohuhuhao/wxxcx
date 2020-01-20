@@ -3,6 +3,7 @@ package com.hh.wx.xcx.model;
 import java.util.Date;
 
 import com.hh.wx.xcx.commons.model.BaseModel;
+import com.hh.wx.xcx.servicetype.ServiceType;
 
 import lombok.Data;
 
@@ -28,7 +29,7 @@ public class Appointment extends BaseModel{
 	
 	private Integer status;
 	
-	private Integer type;
-	
 	private Long belongId;
+	
+	private Integer type;
 }

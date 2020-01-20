@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50728
 File Encoding         : 65001
 
-Date: 2020-01-15 11:26:59
+Date: 2020-01-20 14:34:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,16 +52,17 @@ CREATE TABLE `app_for_product` (
 -- ----------------------------
 DROP TABLE IF EXISTS `appointment`;
 CREATE TABLE `appointment` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `time` datetime NOT NULL,
-  `phone` varchar(11) DEFAULT NULL,
-  `app_id` int(11) NOT NULL COMMENT '应用的id',
-  `status` tinyint(4) NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  `app_id` bigint(20) NOT NULL COMMENT '应用的id',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0预约成功；1预约已处理；2预约取消',
   `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0保养，1维修，2救援，3洗车，4美容，5配件',
-  `belong_id` int(11) NOT NULL COMMENT '预约所属实体标识',
+  `belong_id` bigint(20) DEFAULT NULL COMMENT '预约所属实体标识',
   `remark` varchar(200) DEFAULT NULL,
-  `openid` varchar(100) NOT NULL,
+  `contact` varchar(10) NOT NULL,
+  `business_type` varchar(10) NOT NULL,
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -74,7 +75,8 @@ DROP TABLE IF EXISTS `car_app`;
 CREATE TABLE `car_app` (
   `car_id` bigint(20) NOT NULL,
   `app_id` bigint(20) NOT NULL,
-  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+  `create_time` datetime NOT NULL,
+  UNIQUE KEY `car_app` (`car_id`,`app_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -138,8 +140,8 @@ CREATE TABLE `insurance_detail` (
 -- ----------------------------
 DROP TABLE IF EXISTS `maintain_detail`;
 CREATE TABLE `maintain_detail` (
-  `id` int(11) NOT NULL,
-  `maintain_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `maintain_id` bigint(20) NOT NULL,
   `name` varchar(200) NOT NULL,
   `detail` text NOT NULL,
   `create_time` datetime NOT NULL,
@@ -154,15 +156,15 @@ CREATE TABLE `maintain_detail` (
 -- ----------------------------
 DROP TABLE IF EXISTS `maintain_info`;
 CREATE TABLE `maintain_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `app_id` int(11) NOT NULL,
-  `car_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `app_id` bigint(20) NOT NULL,
+  `car_id` bigint(20) NOT NULL,
   `maintain_time` datetime DEFAULT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '保养状态；0：已保养；1 :待保养，2过期，4完成',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '保养状态；1：已保养；0 :待保养，2过期，4完成',
   `maintain_title` varchar(255) NOT NULL,
   `maintain_addr` varchar(255) DEFAULT NULL,
   `maintainer` varchar(255) DEFAULT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0保养，1维修，2救援，3洗车，4美容，5配件',
+  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0保养，1维修',
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -400,15 +402,16 @@ CREATE TABLE `QRTZ_TRIGGERS` (
 -- ----------------------------
 DROP TABLE IF EXISTS `remind`;
 CREATE TABLE `remind` (
-  `id` int(11) NOT NULL,
-  `direct_id` int(11) DEFAULT NULL,
+  `id` bigint(20) NOT NULL,
+  `direct_id` bigint(20) DEFAULT NULL,
   `title` varchar(100) NOT NULL,
   `content` varchar(300) NOT NULL,
-  `appId` int(11) NOT NULL,
-  `businessType` varchar(255) NOT NULL,
-  `type` tinyint(4) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '发送状态',
-  `receiver` int(11) DEFAULT NULL,
+  `app_id` bigint(20) NOT NULL,
+  `business_type` varchar(255) NOT NULL,
+  `property` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0普通通知；1置顶通知',
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0全局通知；1个人通知',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '发送状态0未发布，1已发布',
+  `receiver` bigint(20) DEFAULT NULL,
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -442,6 +445,7 @@ CREATE TABLE `user` (
   `phone` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
   `img` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `openid` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `recevie_msg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '用户是否接收订阅消息默认不接收，1接收',
   `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0普通用户；1关联用户；',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,

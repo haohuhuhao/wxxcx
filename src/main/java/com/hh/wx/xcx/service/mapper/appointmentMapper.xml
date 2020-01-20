@@ -29,5 +29,67 @@
 		now(),
 		now())
 	</insert>
+	
+	<select id="getCount" parameterType="com.hh.wx.xcx.model.Appointment" resultType="long">
+		select count(1) from appointment 
+		where app_id = #{appId}
+		<if test="status !=null">
+			and status = #{status}
+		</if>
+		<if test="userId !=null">
+			and user_id = #{userId}
+		</if>
+		
+	</select>
+	
+	<sql id="detail">
+		id,
+		user_id userId,
+		time,
+		phone,
+		contact,
+		app_id appId,
+		status,
+		business_type businessType,
+		type,
+		belong_id belongId,
+		update_time updateTime,
+		create_time createTime 
+	</sql>
+	<select id="query" resultType="com.hh.wx.xcx.model.Appointment">
+		select 
+		<include refid="detail"></include>
+		from appointment 
+		where app_id = #{appointment.appId}
+		<if test="appointment.status !=null">
+			and status = #{appointment.status}
+		</if>
+		<if test="appointment.userId !=null">
+			and user_id = #{appointment.userId}
+		</if>
+		
+		limit #{skip},#{limit}
+		
+	</select>
+	
+	<select id="findById" parameterType="long" resultType="com.hh.wx.xcx.model.Appointment">
+		select 
+		<include refid="detail"></include>
+		from appointment 
+		where id = #{id} 
+	
+	</select>
+	
+	<delete id="deleteById">
+		delete
+		from appointment 
+		where id = #{id} and user_id = #{userId} and app_id = #{appId}
+	</delete>
+	
+	<update id="cancelAppointmentOrder">
+		update appointment set status = 2
+		where id = #{id} and user_id = #{userId} and app_id = #{appId}
+	
+	</update>
 
 </mapper>

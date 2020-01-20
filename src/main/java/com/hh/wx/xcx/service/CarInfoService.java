@@ -18,5 +18,7 @@ public interface CarInfoService {
 	ResultVo<String> update(CarInfo car);
 
 	ResultVo<CarInfo> getByCarNum(String num);
+	
+	CarInfo getByCarEntryNum(String num);
 
 }

@@ -1,5 +1,8 @@
 package com.hh.wx.xcx.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -25,10 +28,8 @@ public class WxUserInfoController {
 	private WxUserService wxUserService;
 	
 	@RequestMapping("login")
-	public ResultVo<String> login(String code,@RequestHeader HttpHeaders headers,Long appId){
-		if(headers.get("token")!=null){
-			
-		}
+	public ResultVo<Map<String,Object>> login(String code,@RequestHeader HttpHeaders headers,Long appId){
+		Map<String,Object> result = new HashMap<>();
 //		WxSession session = wxDataHander.getWxSession(code,appId);
 //		if(session == null){
 //			return ResultUtils.fail("wxSession过期");
@@ -40,10 +41,13 @@ public class WxUserInfoController {
 				if(token == null){
 					return ResultUtils.fail("登陆失败", -1);
 				}else{
-					return ResultUtils.secusses(token);
+					result.put("need_recevie", wxUser.isRecevieMsg());
+					result.put("token", token);
+					return ResultUtils.secusses(result);
 				}
 			}else{
-				return ResultUtils.failWithData("需要授权",openid, -4);
+				result.put("openid", openid);
+				return ResultUtils.failWithData("需要授权",result, -4);
 			}
 		//}
 	}

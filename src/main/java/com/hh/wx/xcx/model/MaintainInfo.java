@@ -27,5 +27,5 @@ public class MaintainInfo extends BaseModel{
 	
 	private String maintainer;
 	
-	//private List<MaintainDetail> maintainDetails;
+	private List<MaintainDetail> maintainDetails;
 }

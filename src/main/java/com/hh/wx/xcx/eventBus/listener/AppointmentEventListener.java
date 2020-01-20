@@ -35,16 +35,14 @@ public class AppointmentEventListener {
 
 	@Subscribe
 	public void onEvent(AppointmentEvent event){
-		//myScheduler.startJob("", jobName, jobGroup, jobClass, jobDataMap);
-		//wxDataHander.sendkefumsg(event.getAppId(),event.getOpenid());
+		wxDataHander.sendmbmsg(event.getAppId(),event.getOpenid());
 		
-		try {
+		/*try {
 			JobDataMap map = new JobDataMap();
 			myScheduler.startJob(toCornStr(event.getTime()), "提醒"+event.getAppointmentId(), "tixing", ScheduledJob.class, map);
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	private String toCornStr(Date time){

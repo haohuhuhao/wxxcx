@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.wx.xcx.service.mapper.RemindMapper" >
+	<insert id="insert" parameterType="com.hh.wx.xcx.model.Remind">
+		insert into remind (
+		id,
+		direct_id,
+		title,
+		content,
+		app_id,
+		business_type,
+		property,
+		type,
+		`status`,
+		receiver,
+		update_time,
+		create_time)
+		values(#{id},#{directId},#{title},#{content},#{appId},#{businessType},
+		#{property},#{type},#{status},#{receiver},now(),now())
+	</insert>
+	
+	<update id="topOrNo" parameterType="com.hh.wx.xcx.model.Remind">
+		update remind 
+		set property = #{property},update_time = now()
+		where id = #{id} and app_id = #{appId} and business_type = #{businessType}
+	</update>
+	
+	<update id="publishOrNo" parameterType="com.hh.wx.xcx.model.Remind">
+		update remind 
+		set status = #{status},update_time = now()
+		where id = #{id} and app_id = #{appId} and business_type = #{businessType}
+	</update>
+	
+	<sql id="baseSelect">
+		id,
+		direct_id directId,
+		title,
+		content,
+		app_id appId,
+		business_type businessType,
+		property,
+		type,
+		`status`,
+		receiver,
+		update_time updateTime,
+		create_time createTime
+	</sql>
+	<select id="getById" parameterType="long" resultType="com.hh.wx.xcx.model.Remind">
+		select 
+		<include refid="baseSelect"></include>
+		
+		from remind where id = #{id}
+	</select>
+	
+	<select id="count" parameterType="com.hh.wx.xcx.model.Remind" resultType="long">
+		select count(1) from remind where
+		app_id = #{appId}
+		 and business_type = #{businessType}
+		 <if test="property != null">
+		 	and property = #{property}
+		 </if>
+		 <if test="type != null">
+		 	and type = #{type}
+		 </if>
+		 
+		 <if test="receiver != null">
+		 	and receiver = #{receiver}
+		 </if>
+		 
+		 <if test="status != null">
+		 	and status = #{status}
+		 </if>
+	</select>
+	
+	<select id="list" resultType="com.hh.wx.xcx.model.Remind">
+		select 
+		<include refid="baseSelect"></include>
+		from remind where
+		app_id = #{queryRemind.appId}
+		 and business_type = #{queryRemind.businessType}
+		 <if test="queryRemind.property != null">
+		 	and property = #{queryRemind.property}
+		 </if>
+		 <if test="queryRemind.type != null">
+		 	and type = #{queryRemind.type}
+		 </if>
+		 
+		 <if test="queryRemind.receiver != null">
+		 	and receiver = #{queryRemind.receiver}
+		 </if>
+		 
+		 <if test="queryRemind.status != null">
+		 	and status = #{queryRemind.status}
+		 </if>
+		 
+		 limit #{index},#{limit}
+	</select>
+</mapper>

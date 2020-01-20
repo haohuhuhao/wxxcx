@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -26,7 +27,6 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.hh.wx.xcx.argumentResolver.RequestModelArgumentResolver;
 import com.hh.wx.xcx.converter.CustomLongConverter;
-import com.hh.wx.xcx.converter.DateConverterConfig;
 import com.hh.wx.xcx.interceptor.LoginInterceptor;
 
 @Configuration
@@ -35,8 +35,11 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
-	@Autowired 
-	private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+	//@Autowired 
+	//private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+	
+//	@Autowired
+//	private EnumConverterFactory enumConverterFactory;
 	
 
    /* @Bean
@@ -106,11 +109,22 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
+	/* (non-Javadoc)
+	 * @see 自定义requestBody
+	 */
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(new RequestModelArgumentResolver());
 		//WebMvcConfigurer.super.addArgumentResolvers(resolvers);
 	}
+
+	/*@Override
+	public void addFormatters(FormatterRegistry registry) {
+		
+		registry.addConverterFactory(enumConverterFactory);
+	}*/
+	
+	
 	
 
 }

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -27,12 +26,13 @@ public class WxDataHander {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
-	@Value("${wx.session-url}")
-	private String SESSION_URL;
+	private static final String SESSION_URL = "https://api.weixin.qq.com/sns/jscode2session";
 	
 	private static final String TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
 	
 	private static final String SEND_WX_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s";
+	
+	private static final String SEND_WX_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=%s";
 	
 	public WxSession getWxSession(String code,Long appId){
 		AppInfo appInfo = appInfoService.getEntryById(appId);
@@ -84,7 +84,7 @@ public class WxDataHander {
 	}
 
 	/**
-	 * 
+	 * 发送客服消息
 	 */
 	public void sendkefumsg(Long appId,String openid) {
 		Map<String,Object> param = new HashMap<>();
@@ -95,6 +95,35 @@ public class WxDataHander {
 		content.put("content", "rrr");
 		param.put("text", content);
 		httpUtils.doPost(JSONObject.class, String.format(SEND_WX_MESSAGE, getAccessToken(appId)), param, null, null);
+		
+	}
+	
+	/**
+	 * 发送模板消息
+	 */
+	public void sendmbmsg(Long appId,String openid) {
+		Map<String,Object> param = new HashMap<>();
+		param.put("touser", openid);
+		param.put("msgtype", "text");
+		
+		param.put("template_id", "LI0BfcCuOgO0Tn24hLmSIrLDrIgsLzvNJ2wvdP-4idQ");
+		param.put("page", "index");
+		
+		
+	
+		Map<String,Object> content = new HashMap<>();
+		content.put("car_number1", new HashMap<String,String>(){{
+			put("value", "川AHU266");
+		}});
+		content.put("thing2",  new HashMap<String,String>(){{
+			put("value", "需要保养");
+		}});
+		content.put("thing3", new HashMap<String,String>(){{
+			put("value", "捷达");
+		}});
+		
+		param.put("data", content);
+		httpUtils.doPost(JSONObject.class, String.format(SEND_WX_TEMPLATE_MESSAGE, getAccessToken(appId)), param, null, null);
 		
 	}
 }

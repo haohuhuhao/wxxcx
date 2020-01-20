@@ -58,9 +58,14 @@ public class CarInfoServiceImpl implements CarInfoService {
 
 	@Override
 	public ResultVo<CarInfo> getByCarNum(String num) {
+		
+		return ResultUtils.secusses(getByCarEntryNum(num));
+	}
+
+	@Override
+	public CarInfo getByCarEntryNum(String num) {
 		LoginUserInfo userInfo = LoginInfoUtils.getLoginInfo(LoginUserInfo.class);
 		
-		CarInfo car = carMapper.getByCarNum(num,userInfo.getAppId());
-		return ResultUtils.secusses(car);
+		return carMapper.getByCarNum(num,userInfo.getAppId());
 	}
 }

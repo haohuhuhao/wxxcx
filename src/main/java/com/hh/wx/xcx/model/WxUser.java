@@ -31,4 +31,9 @@ public class WxUser extends BaseModel{
 	 * 应用id
 	 */
 	private Long appId;
+	
+	/**
+	 * 是否接收订阅消息
+	 */
+	private boolean recevieMsg = false;
 }
